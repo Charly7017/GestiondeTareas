@@ -1,0 +1,65 @@
+﻿@model IEnumerable<TipoTarea>
+
+@{
+	ViewData["Title"] = "Tipos Tareas";
+}
+
+<h1>Tipos Tareas</h1>
+<h5>
+	En esta seccion puedes ver todas las categorias o tipos de tareas.
+</h5>
+
+<a asp-action="Crear" asp-controller="TiposTareas" class="btn btn-primary">Crear tipo de tarea</a>
+
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Acciones</th>
+			<th>Nombre</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var tipoTarea in Model)
+		{
+			<tr>
+				<td>
+					<a class="btn btn-primary" asp-route-Id="@tipoTarea.Id" asp-action="Actualizar">Editar</a>
+					@* <a class="btn btn-danger"  asp-route-Id="@tipoTarea.Id" asp-action="Eliminar">Borrar</a> *@
+					<a class="btn btn-danger" data-id="@tipoTarea.Id" data-action="Eliminar">Borrar</a>
+				<td>
+					@tipoTarea.Nombre
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			$("a[data-action='Eliminar']").click(function () {
+				var id = $(this).data("id");
+				if (confirm("¿Estás seguro de que deseas eliminar este elemento?")) {
+					$.ajax({
+						type: "POST",
+						url: "/TiposTareas/EliminarTipoTarea/" + id,
+						success: function () {
+							// Puedes realizar alguna acción adicional aquí, como actualizar la vista
+							location.reload(); // Recargar la página
+						},
+						error: function () {
+							alert("Error al eliminar el elemento.");
+						}
+					});
+				}
+			});
+		});
+	</script>
+}
+
+
+
+
+
