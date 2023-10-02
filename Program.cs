@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IRepositorioTiposTareas, RepositorioTiposTareas>();
 builder.Services.AddTransient<IServicioUsuarios, ServicioUsuarios>();
-
+builder.Services.AddTransient<IRepositorioTareas, RepositorioTareas>();
 var app = builder.Build();
 
 
