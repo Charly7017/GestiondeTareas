@@ -8,6 +8,7 @@ namespace GestionDeTareas.Servicios
 	public interface IRepositorioTareas
 	{
 		Task Crear(Tarea tarea);
+		Task<IEnumerable<Tarea>> Obtener(int usuarioId);
 	}
 
 	public class RepositorioTareas:IRepositorioTareas
@@ -32,6 +33,19 @@ namespace GestionDeTareas.Servicios
 
 
 		}
+
+		public async Task<IEnumerable<Tarea>> Obtener(int usuarioId)
+		{
+			using var connection = new SqlConnection(connectionString);
+
+
+			return await connection.QueryAsync<Tarea>("Tareas_Obtener", new {usuarioId}, commandType: CommandType.StoredProcedure);
+		}
+
+		//public async Task Actualizar()
+		//{
+
+		//}
 
 
 

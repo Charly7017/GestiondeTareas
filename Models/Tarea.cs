@@ -20,5 +20,8 @@ namespace GestionDeTareas.Models
 		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
 		public DateTime FechaLimite { get; set; } = DateTime.Today;
 		public bool Completada { get; set; } = false;
+		public string TareaNombre { get; set; }
+		public string Categoria { get; set; }
+
     }
 }

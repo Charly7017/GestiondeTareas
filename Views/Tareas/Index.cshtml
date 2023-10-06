@@ -1,6 +1,45 @@
-﻿
+﻿@model IEnumerable<Tarea>
+
 @{
 	ViewData["Title"] = "Tareas";
 }
 
+<h1>Tareas</h1>
+<h5>
+	En esta seccion puedes ver todas las tareas que tienes por hacer.
+</h5>
+
 <a class="btn btn-primary" asp-controller="Tareas" asp-action="Crear">Crear Tarea</a>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Acciones</th>
+			<th>Nombre</th>
+			<th>Categoria</th>
+			<th>Descripcion</th>
+			<th>FechaCreacion</th>
+			<th>FechaLimite</th>
+			<th>Completada</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var tarea in Model)
+		{
+			<tr>
+				<td>
+					<a class="btn btn-primary mb-3">Editar</a>
+					<a class="btn btn-danger mb-3">Borrar</a>
+				</td>
+				<td>@tarea.TareaNombre</td>
+				<td>@tarea.Categoria</td>
+				<td>@tarea.Descripcion</td>
+				<td>@tarea.FechaCreacion</td>
+				<td>@tarea.FechaLimite</td>
+				<td>@tarea.Completada</td>
+			</tr>
+		}
+	</tbody>
+
+
+</table>

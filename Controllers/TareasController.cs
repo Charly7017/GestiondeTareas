@@ -19,9 +19,11 @@ namespace GestionDeTareas.Controllers
 			this.repositorioTareas = repositorioTareas;
 		}
 
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
         {
-            return View();
+			var usuarioId = servicioUsuarios.ObtenerIdUsuario();
+			var tareas = await repositorioTareas.Obtener(usuarioId);
+			return View(tareas);
         }
 
         [HttpGet]
