@@ -22,6 +22,7 @@ namespace GestionDeTareas.Models
 		public bool Completada { get; set; } = false;
 		public string TareaNombre { get; set; }
 		public string Categoria { get; set; }
+        public int UsuarioId { get; set; }
 
     }
 }

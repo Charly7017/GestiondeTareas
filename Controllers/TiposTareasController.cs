@@ -109,6 +109,8 @@ namespace GestionDeTareas.Controllers
 
 		}
 
+
+
 		[HttpPost]
 		public async Task<IActionResult> EliminarTipoTarea(int id)
 		{

@@ -2,6 +2,14 @@
 
 @{
 	ViewData["Title"] = "Tareas";
+
+
+	string Completada(bool completada)
+	{
+		return completada ? "Completada" : "No completada";
+	}
+
+
 }
 
 <h1>Tareas</h1>
@@ -28,18 +36,43 @@
 		{
 			<tr>
 				<td>
-					<a class="btn btn-primary mb-3">Editar</a>
-					<a class="btn btn-danger mb-3">Borrar</a>
+					<a asp-action="Actualizar" asp-route-Id="@tarea.Id" class="btn btn-primary mb-3">Editar</a>
+					@* <a asp-action="Eliminar" asp-route-Id="@tarea.Id" class="btn btn-danger mb-3">Borrar</a> *@
+					<a class="btn btn-danger" data-id="@tarea.Id" data-action="Eliminar">Borrar</a>
 				</td>
 				<td>@tarea.TareaNombre</td>
 				<td>@tarea.Categoria</td>
 				<td>@tarea.Descripcion</td>
 				<td>@tarea.FechaCreacion</td>
 				<td>@tarea.FechaLimite</td>
-				<td>@tarea.Completada</td>
+				<td>@Completada(tarea.Completada)</td>
 			</tr>
 		}
 	</tbody>
 
 
 </table>
+
+
+@section Scripts{
+	<script>
+		$(document).ready(function () {
+			$("a[data-action='Eliminar']").click(function () {
+				var id = $(this).data("id");
+				if (confirm("¿Estás seguro de que deseas eliminar este elemento?")) {
+					$.ajax({
+						type: "POST",
+						url: "/Tareas/EliminarTarea/" + id,
+						success: function () {
+							// Puedes realizar alguna acción adicional aquí, como actualizar la vista
+							location.reload(); // Recargar la página
+						},
+						error: function () {
+							alert("Error al eliminar el elemento.");
+						}
+					});
+				}
+			});
+		});
+	</script>
+}

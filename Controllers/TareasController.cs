@@ -44,6 +44,7 @@ namespace GestionDeTareas.Controllers
 			var usuarioId = servicioUsuarios.ObtenerIdUsuario();
 			var tipoTarea = await repositorioTiposTareas.ObtenerPorId(tarea.TipoTareaId,usuarioId);
 
+
 			if(tipoTarea is null)
 			{
 				return RedirectToAction("NoEncontrado", "Home");
@@ -54,11 +55,78 @@ namespace GestionDeTareas.Controllers
 				tarea.TiposTareas = await ObtenerTiposTareas(usuarioId);
 				return View(tarea);
 			}
+			tarea.UsuarioId = servicioUsuarios.ObtenerIdUsuario();
 
 			await repositorioTareas.Crear(tarea);
 
 			return RedirectToAction("Index");
 
+		}
+
+
+		[HttpGet]
+		public async Task<IActionResult> Actualizar(int id)
+		{
+			var usuarioId = servicioUsuarios.ObtenerIdUsuario();
+			var tarea = await repositorioTareas.ObtenerPorId(id, usuarioId);
+			var modelo = new TareaCreacionViewModel();
+			modelo.TiposTareas = await ObtenerTiposTareas(usuarioId);
+
+			if (tarea is null)
+			{
+				return RedirectToAction("NoEncontrado", "Home");
+			}
+
+			return View(modelo);
+
+		}
+
+
+
+		[HttpPost]
+		public async Task<IActionResult> Actualizar(Tarea tarea)
+		{
+			//var usuarioId = servicioUsuarios.ObtenerIdUsuario();
+
+			await repositorioTareas.Actualizar(tarea);
+
+
+			return RedirectToAction("Index");
+
+		}
+
+		
+		[HttpGet]
+		public async Task<IActionResult> Eliminar(int id)
+		{
+			var usuarioId = servicioUsuarios.ObtenerIdUsuario();
+			var tarea = await repositorioTareas.ObtenerPorId(id,usuarioId);
+
+			if(tarea is null)
+			{
+				return RedirectToAction("NoEncontrado", "Home");
+			}
+
+			return View(tarea);
+
+
+		}
+
+
+		[HttpPost]
+		public async Task<IActionResult> EliminarTarea(int id)
+		{
+			var usuarioId = servicioUsuarios.ObtenerIdUsuario();
+			var tarea = await repositorioTareas.ObtenerPorId(id, usuarioId);
+
+			if (tarea is null)
+			{
+				return RedirectToAction("NoEncontrado", "Home");
+			}
+
+			await repositorioTareas.Eliminar(id);
+
+			return RedirectToAction("Index");
 		}
 
 		//Se obtienen los tipos de tareas pero en forma de SelectListItem
